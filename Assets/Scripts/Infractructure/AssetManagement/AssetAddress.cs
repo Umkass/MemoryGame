@@ -3,5 +3,6 @@
     public static class AssetAddress
     {
         public const string UIRoot = "UIRoot";
+        public const string GameField = "GameField";
     }
 }

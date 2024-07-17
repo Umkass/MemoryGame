@@ -1,4 +1,5 @@
 ﻿using Infractructure.AssetManagement;
+using Infractructure.Services.Factory;
 using Infractructure.Services.Progress;
 using Infractructure.Services.StaticData;
 using Infractructure.UIServices.Factory;
@@ -16,6 +17,7 @@ namespace Zenject.Installers
             Container.Bind<IUIFactory>().To<UIFactory>().AsSingle();
             Container.Bind<ISaveLoadService>().To<SaveLoadService>().AsSingle();
             Container.Bind<IViewService>().To<ViewService>().AsSingle();
+            Container.Bind<IGameFactory>().To<GameFactory>().AsSingle();
         }
     }
 }

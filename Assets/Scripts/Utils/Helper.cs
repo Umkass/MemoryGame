@@ -2,7 +2,7 @@
 
 namespace Utils
 {
-    public static class DataExtensions
+    public static class Helper
     {
         public static string ToJson(this object obj) =>
             JsonUtility.ToJson(obj);

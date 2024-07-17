@@ -1,0 +1,92 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20b35a232fb54ba18b753808803c8e71, type: 3}
+  m_Name: CardsData
+  m_EditorClassIdentifier: 
+  <CardsData>k__BackingField:
+  - <CardId>k__BackingField: 0
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: a3679cfed1b063a46a43f039c8bf4377, type: 3}
+  - <CardId>k__BackingField: 1
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: 607dd9b365933514a91089a170eab5a2, type: 3}
+  - <CardId>k__BackingField: 2
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: abb5bb997b58f1140a1d3fb932df194d, type: 3}
+  - <CardId>k__BackingField: 3
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: 5baae83e7175b69499b25ffce2378880, type: 3}
+  - <CardId>k__BackingField: 4
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: 27f2e836248e6ed4ba5e594b0c3ec4b0, type: 3}
+  - <CardId>k__BackingField: 5
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: 5babcf572046d4c4488d1e059ab0f6dd, type: 3}
+  - <CardId>k__BackingField: 6
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: 0fa2d1b55b971d344ac7457123b31f6f, type: 3}
+  - <CardId>k__BackingField: 7
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: aae995fed32bf5c40898c87a4cee8482, type: 3}
+  - <CardId>k__BackingField: 8
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: 8446d57e9f54f6748889814d520a9ab6, type: 3}
+  - <CardId>k__BackingField: 9
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: 4f6b9493e08b43d4c86120f4ee47bdb1, type: 3}
+  - <CardId>k__BackingField: 10
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: 5134e69cb5f604b489991130387fc0d2, type: 3}
+  - <CardId>k__BackingField: 11
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: be655e74aaaaf7147a6dd893983b327a, type: 3}
+  - <CardId>k__BackingField: 12
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: a64db8ae635bc4540bff93e561d7f6d8, type: 3}
+  - <CardId>k__BackingField: 13
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: 18f6ecb0972f5ce49815152f32edc4ac, type: 3}
+  - <CardId>k__BackingField: 14
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: 17ba7194284c4fd449320a0f6a24b26f, type: 3}
+  - <CardId>k__BackingField: 15
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: c5536b1e5de18d3439edb65dff77826d, type: 3}
+  - <CardId>k__BackingField: 16
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: c29d665b7bdf605408dfd8ff46dbde78, type: 3}
+  - <CardId>k__BackingField: 17
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: 9df8289040c54314a81fcf47a2c94b71, type: 3}
+  - <CardId>k__BackingField: 18
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: 1a34a37fbbb32c044bc4c2bd59c70893, type: 3}
+  - <CardId>k__BackingField: 19
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: 97015e834cb1b204fa6222db6a9b400a, type: 3}
+  - <CardId>k__BackingField: 20
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: bba117fdd0ecfe54b83ed5162d20052c, type: 3}
+  - <CardId>k__BackingField: 21
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: 2bf8290300dd98b428665ade67d308bd, type: 3}
+  - <CardId>k__BackingField: 22
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: 4360320c491c7844092c0804c3583e10, type: 3}
+  - <CardId>k__BackingField: 23
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: 91a988feaf62d2c4d89e855e53b439d6, type: 3}
+  - <CardId>k__BackingField: 24
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: cb55e7f7fc912504b9ef061c09fd7d3e, type: 3}
+  - <CardId>k__BackingField: 25
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: 8cea8e9055ac24a41a62f6c9162d42bb, type: 3}
+  - <CardId>k__BackingField: 26
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: 18a27f6ebd82c6445aaba93b2e64ff01, type: 3}
+  - <CardId>k__BackingField: 27
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: 79a6d7346d9386b41827935de481ac94, type: 3}
+  - <CardId>k__BackingField: 28
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: dbeead41e14efc44bae5a22cf0a223f3, type: 3}
+  - <CardId>k__BackingField: 29
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: 566ba81d7787f0b41a3b47e74d446a35, type: 3}
+  - <CardId>k__BackingField: 30
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: ad1d8859f10648a489f96b014647bdea, type: 3}
+  - <CardId>k__BackingField: 31
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: 85112e9ab544c384b9ecd6c205deceba, type: 3}
+  - <CardId>k__BackingField: 32
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: 5c1db3b3fa9fb22498893bdacc76d92d, type: 3}
+  - <CardId>k__BackingField: 33
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: 872e523f0751aa04faea2fe66ab49131, type: 3}
+  - <CardId>k__BackingField: 34
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: 470baa1fe306b1a4c863fcf788ca8f31, type: 3}
+  - <CardId>k__BackingField: 35
+    <CardSprite>k__BackingField: {fileID: 21300000, guid: 2f276e29ffda08b438c26dccdde8a39d, type: 3}
+  <PrefabReference>k__BackingField:
+    m_AssetGUID: 191d7653dacb04642b3a2cfa815471f7
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0

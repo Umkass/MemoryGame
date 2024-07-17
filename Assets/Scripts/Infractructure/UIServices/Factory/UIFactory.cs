@@ -9,9 +9,9 @@ namespace Infractructure.UIServices.Factory
 {
     public class UIFactory : IUIFactory
     {
-        private Transform _uiRoot;
         private readonly IAssetProvider _assetProvider;
         private readonly IStaticDataService _staticDataService;
+        public Transform UIRoot { get; private set; }
 
         public UIFactory(IStaticDataService staticDataService, IAssetProvider assetProvider)
         {
@@ -22,13 +22,13 @@ namespace Infractructure.UIServices.Factory
         public async Task CreateUIRoot()
         {
             GameObject root = await _assetProvider.Instantiate(AssetAddress.UIRoot);
-            _uiRoot = root.transform;
+            UIRoot = root.transform;
         }
 
         public async Task<ViewBase> CreateWindow(ViewId viewId)
         {
             ViewData config = _staticDataService.GetView(viewId);
-            GameObject windowGameObject = await _assetProvider.Instantiate(config.PrefabReference.AssetGUID, _uiRoot);
+            GameObject windowGameObject = await _assetProvider.Instantiate(config.PrefabReference.AssetGUID, UIRoot);
             ViewBase window = windowGameObject.GetComponent<ViewBase>();
             return window;
         }
