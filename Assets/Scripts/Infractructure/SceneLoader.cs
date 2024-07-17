@@ -8,13 +8,13 @@ namespace Infractructure
     public class SceneLoader : ISceneLoader
     {
         private ICoroutineRunner _coroutineRunner;
-        
+
         public void Init(ICoroutineRunner coroutineRunner) =>
             _coroutineRunner = coroutineRunner;
 
         public void LoadScene(string name, Action onLoaded = null) =>
             _coroutineRunner.StartCoroutine(Load(name, onLoaded));
-        
+
         private IEnumerator Load(string nextScene, Action onLoaded = null)
         {
             if (SceneManager.GetActiveScene().name == nextScene)

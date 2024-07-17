@@ -2,7 +2,7 @@
 
 namespace Zenject.Installers
 {
-    public class StatesInstaller: MonoInstaller
+    public class StatesInstaller : MonoInstaller
     {
         public override void InstallBindings()
         {

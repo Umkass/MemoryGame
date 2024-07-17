@@ -7,6 +7,7 @@ namespace Zenject.Installers
     public class BootstrapInstaller : MonoInstaller
     {
         [SerializeField] private LoadingCurtain _loadingCurtain;
+
         public override void InstallBindings()
         {
             Container.Bind<Game>().AsSingle();

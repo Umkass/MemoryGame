@@ -9,10 +9,10 @@ namespace Infractructure
         private Game _game;
 
         [Inject]
-        public void Construct(Game game) => 
+        public void Construct(Game game) =>
             _game = game;
 
-        private void Start() => 
+        private void Start() =>
             _game.Init(_coroutineRunner);
     }
 }

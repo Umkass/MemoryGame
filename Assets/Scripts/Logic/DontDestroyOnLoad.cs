@@ -4,7 +4,7 @@ namespace Logic
 {
     public class DontDestroyOnLoad : MonoBehaviour
     {
-        private void Awake() => 
+        private void Awake() =>
             DontDestroyOnLoad(this);
     }
 }

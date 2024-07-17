@@ -1,4 +1,6 @@
 ﻿using Data;
+using Infractructure.AssetManagement;
+using Infractructure.Services.StaticData;
 
 namespace Infractructure.StateMachine
 {
@@ -6,11 +8,18 @@ namespace Infractructure.StateMachine
     {
         private readonly ISceneLoader _sceneLoader;
         private IGameStateMachine _stateMachine;
+        private readonly IStaticDataService _staticDataService;
+        private readonly IAssetProvider _assetProvider;
 
-        public BootstrapState(ISceneLoader sceneLoader) => 
+        public BootstrapState(ISceneLoader sceneLoader, IStaticDataService staticDataService, IAssetProvider assetProvider)
+        {
             _sceneLoader = sceneLoader;
+            _staticDataService = staticDataService;
+            _assetProvider = assetProvider;
+            InitializeServices();
+        }
 
-        public void Initialize(IGameStateMachine stateMachine) => 
+        public void Initialize(IGameStateMachine stateMachine) =>
             _stateMachine = stateMachine;
 
         public void Enter() =>
@@ -18,6 +27,12 @@ namespace Infractructure.StateMachine
 
         public void Exit()
         {
+        }
+
+        private void InitializeServices()
+        {
+            _staticDataService.LoadAll();
+            _assetProvider.Initialize();
         }
 
         private void EnterMenuState() =>

@@ -13,7 +13,8 @@ namespace Infractructure.StateMachine
         private IState _activeState;
 
 
-        public GameStateMachine(BootstrapState bootstrapState, MenuState menuState, GameState gameState, ISceneLoader sceneLoader)
+        public GameStateMachine(BootstrapState bootstrapState, MenuState menuState, GameState gameState,
+            ISceneLoader sceneLoader)
         {
             _bootstrapState = bootstrapState;
             _menuState = menuState;
@@ -31,6 +32,7 @@ namespace Infractructure.StateMachine
         {
             _sceneLoader.Init(coroutineRunner);
             _bootstrapState.Initialize(this);
+            _menuState.Initialize(this);
         }
 
         public void Enter<TState>() where TState : class, IDefaultState

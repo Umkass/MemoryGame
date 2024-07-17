@@ -6,7 +6,7 @@ namespace Infractructure
     {
         private readonly GameStateMachine _stateMachine;
 
-        public Game(GameStateMachine stateMachine) => 
+        public Game(GameStateMachine stateMachine) =>
             _stateMachine = stateMachine;
 
         public void Init(ICoroutineRunner coroutineRunner)
