@@ -51,10 +51,6 @@ namespace Infractructure.Services.StaticData
             List<CardData> cardList = _cardsData.Values.ToList();
             Shuffle(cardList);
             List<CardData> randomCards = cardList.Take(quantity).ToList();
-            foreach (var cardData in randomCards)
-            {
-                Debug.Log("VVV randomCardData " + cardData);
-            }
             return randomCards;
         }
         

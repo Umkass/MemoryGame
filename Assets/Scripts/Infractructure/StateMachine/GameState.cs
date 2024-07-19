@@ -1,10 +1,13 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using GameCore;
 using Infractructure.Services.Factory;
 using Infractructure.Services.Progress;
 using Infractructure.UIServices.Factory;
 using Infractructure.UIServices.ViewService;
 using StaticData.View;
+using UI.Views;
+using UI.Views.GameView;
 
 namespace Infractructure.StateMachine
 {
@@ -24,11 +27,15 @@ namespace Infractructure.StateMachine
 
         public async void Enter()
         {
-            await _viewService.Open(ViewId.Game);
-            await _gameFactory.CreateGameField(_progressService.GameSettingsData.VerticalSize,
+            ViewBase view = await _viewService.Open(ViewId.Game);
+            GameView gameView = view.GetComponent<GameView>();
+            GameField gameField = await _gameFactory.CreateGameField(_progressService.GameSettingsData.VerticalSize,
                 _progressService.GameSettingsData.HorizontalSize);
-            await _gameFactory.CreateCards(_progressService.GameSettingsData.VerticalSize *
-                                     _progressService.GameSettingsData.HorizontalSize);
+            List<Card> cards = await _gameFactory.CreateCards(_progressService.GameSettingsData.VerticalSize *
+                                                              _progressService.GameSettingsData.HorizontalSize);
+
+            gameField.Initialize(_progressService.GameSettingsData, cards, gameView);
+            gameField.PrepareGame();
         }
 
         public void Exit()

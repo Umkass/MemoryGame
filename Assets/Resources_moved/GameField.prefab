@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8796842267040497115}
   - component: {fileID: 326993164237827867}
+  - component: {fileID: 2519431506494914378}
   m_Layer: 5
   m_Name: GameField
   m_TagString: Untagged
@@ -31,7 +32,7 @@ RectTransform:
   m_Children:
   - {fileID: 195010659740120693}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -50,7 +51,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d88a2ef7ec8c496ea152b7075e23ce9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _countdownTimer: {fileID: 2519431506494914378}
   gridLayoutGroup: {fileID: 1222846272614013803}
+--- !u!114 &2519431506494914378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1292618204183419448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37e9ea48c301412d921f8280b9468128, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7302050413243828555
 GameObject:
   m_ObjectHideFlags: 0
