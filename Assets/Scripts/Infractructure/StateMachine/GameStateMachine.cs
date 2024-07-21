@@ -11,10 +11,9 @@ namespace Infractructure.StateMachine
         private readonly GameState _gameState;
         private readonly ISceneLoader _sceneLoader;
         private IState _activeState;
-
-
+        
         public GameStateMachine(BootstrapState bootstrapState, MenuState menuState, GameState gameState,
-            ISceneLoader sceneLoader)
+            GameOverState gameOverState, ISceneLoader sceneLoader)
         {
             _bootstrapState = bootstrapState;
             _menuState = menuState;
@@ -25,6 +24,7 @@ namespace Infractructure.StateMachine
                 [typeof(BootstrapState)] = bootstrapState,
                 [typeof(MenuState)] = menuState,
                 [typeof(GameState)] = gameState,
+                [typeof(GameOverState)] = gameOverState,
             };
         }
 
@@ -33,6 +33,7 @@ namespace Infractructure.StateMachine
             _sceneLoader.Init(coroutineRunner);
             _bootstrapState.Initialize(this);
             _menuState.Initialize(this);
+            _gameState.Initialize(this);
         }
 
         public void Enter<TState>() where TState : class, IDefaultState

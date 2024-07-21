@@ -8,5 +8,6 @@ namespace Infractructure.Services.Factory
     {
         Task<GameField> CreateGameField(int verticalSize, int horizontalSize);
         Task<List<Card>> CreateCards(int quantity);
+        void Cleanup();
     }
 }

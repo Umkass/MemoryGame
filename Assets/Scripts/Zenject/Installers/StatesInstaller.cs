@@ -9,6 +9,7 @@ namespace Zenject.Installers
             Container.Bind<BootstrapState>().AsSingle();
             Container.Bind<MenuState>().AsSingle();
             Container.Bind<GameState>().AsSingle();
+            Container.Bind<GameOverState>().AsSingle();
             Container.Bind<GameStateMachine>().AsSingle();
         }
     }

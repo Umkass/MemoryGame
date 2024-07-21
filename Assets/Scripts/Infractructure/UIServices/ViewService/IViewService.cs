@@ -9,6 +9,5 @@ namespace Infractructure.UIServices.ViewService
     {
         Task<ViewBase> Open(ViewId viewId);
         void Initialize(IGameStateMachine stateMachine);
-        void CloseCurrent();
     }
 }

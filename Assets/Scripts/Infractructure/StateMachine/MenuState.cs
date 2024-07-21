@@ -41,6 +41,7 @@ namespace Infractructure.StateMachine
 
         public void Exit()
         {
+            _uiFactory.Cleanup();
         }
     }
 }

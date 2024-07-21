@@ -6,6 +6,7 @@ using Infractructure.StateMachine;
 using Infractructure.UIServices.Factory;
 using StaticData.View;
 using UI.Views;
+using UI.Views.GameOverView;
 using UI.Views.GameSettings;
 using UI.Views.GameView;
 using UI.Views.MainMenu;
@@ -18,10 +19,9 @@ namespace Infractructure.UIServices.ViewService
         private readonly IUIFactory _uiFactory;
         private readonly IStaticDataService _staticDataService;
         private readonly ISaveLoadService _saveLoadService;
-        private IGameStateMachine _stateMachine;
         private readonly IProgressService _progressService;
+        private IGameStateMachine _stateMachine;
 
-        private readonly Stack<ViewBase> _sequenceOfViews = new();
         private ViewBase _currentView;
 
         public ViewService(IUIFactory uiFactory, IStaticDataService staticDataService, ISaveLoadService saveLoadService,
@@ -41,13 +41,12 @@ namespace Infractructure.UIServices.ViewService
             if (viewId == ViewId.Unknown)
                 return null;
 
-            if (_currentView != null)
-            {
-                _sequenceOfViews.Push(_currentView);
-                HideView(_currentView);
-            }
-
+            ViewBase previousView = _currentView;
             _currentView = await OpenNew(viewId);
+
+            if (previousView != null)
+                CloseView(previousView);
+
             return _currentView;
         }
 
@@ -74,20 +73,23 @@ namespace Infractructure.UIServices.ViewService
                     gameView.Initialize();
                     gameView.SubscribeUpdates();
                     break;
+                case ViewId.GameOver:
+                    GameOverView gameOverView = view.GetComponent<GameOverView>();
+                    gameOverView.Construct(this, _progressService, _stateMachine);
+                    gameOverView.Initialize();
+                    gameOverView.SubscribeUpdates();
+                    break;
             }
 
             return view;
         }
 
-        public void CloseCurrent()
+        private void CloseView(ViewBase view)
         {
-            if (_currentView == null)
+            if (view == null)
                 return;
 
-            Object.Destroy(_currentView.gameObject);
-
-            if (_sequenceOfViews.Count != 0)
-                ShowView(_sequenceOfViews.Pop());
+            Object.Destroy(view.gameObject);
         }
 
         private void ShowView(ViewBase view)

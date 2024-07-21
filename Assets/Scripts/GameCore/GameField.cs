@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using Data;
+using Infractructure.Services.Progress;
+using Infractructure.StateMachine;
 using UI.Views.GameView;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,16 +12,21 @@ namespace GameCore
     {
         [SerializeField] private CardMatch _cardMatch;
         [SerializeField] private CountdownTimer _countdownTimer;
-        public GridLayoutGroup gridLayoutGroup;
-
-        private List<Card> _cards;
-        private List<CardAnimation> _cardAnimations = new();
+        private IProgressService _progressService;
+        private IGameStateMachine _stateMachine;
         private GameSettingsData _settingsData;
         private GameView _gameView;
 
-        public void Initialize(GameSettingsData gameSettingsData, List<Card> cards, GameView gameView)
+        private List<Card> _cards;
+        private List<CardAnimation> _cardAnimations = new();
+        
+        public GridLayoutGroup gridLayoutGroup;
+
+        public void Initialize(IProgressService progressService,IGameStateMachine stateMachine, List<Card> cards, GameView gameView)
         {
-            _settingsData = gameSettingsData;
+            _progressService = progressService;
+            _stateMachine = stateMachine;
+            _settingsData = progressService.GameSettingsData;
             _cards = cards;
             _gameView = gameView;
 
@@ -66,13 +73,15 @@ namespace GameCore
 
         public void GameWin()
         {
-            Debug.Log("GameWin ");
+            _progressService.IsLastGameWon = true;
+            _stateMachine.Enter<GameOverState>();
             CleanupAfterGame();
         }
 
         private void GameLost()
         {
-            Debug.Log("GameLost ");
+            _progressService.IsLastGameWon = false;
+            _stateMachine.Enter<GameOverState>();
             CleanupAfterGame();
         }
 

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 using GameCore;
 using Infractructure.Services.Factory;
 using Infractructure.Services.Progress;
@@ -17,16 +16,22 @@ namespace Infractructure.StateMachine
         private readonly IProgressService _progressService;
         private readonly IUIFactory _uiFactory;
         private readonly IGameFactory _gameFactory;
+        private IGameStateMachine _stateMachine;
 
-        public GameState(IViewService viewService, IProgressService progressService, IGameFactory gameFactory)
+        public GameState(IViewService viewService, IProgressService progressService,IUIFactory uiFactory, IGameFactory gameFactory)
         {
             _viewService = viewService;
             _progressService = progressService;
+            _uiFactory = uiFactory;
             _gameFactory = gameFactory;
         }
 
+        public void Initialize(IGameStateMachine stateMachine) =>
+            _stateMachine = stateMachine;
+
         public async void Enter()
         {
+            await _uiFactory.CreateUIRoot();
             ViewBase view = await _viewService.Open(ViewId.Game);
             GameView gameView = view.GetComponent<GameView>();
             GameField gameField = await _gameFactory.CreateGameField(_progressService.GameSettingsData.VerticalSize,
@@ -34,7 +39,7 @@ namespace Infractructure.StateMachine
             List<Card> cards = await _gameFactory.CreateCards(_progressService.GameSettingsData.VerticalSize *
                                                               _progressService.GameSettingsData.HorizontalSize);
 
-            gameField.Initialize(_progressService.GameSettingsData, cards, gameView);
+            gameField.Initialize(_progressService, _stateMachine, cards, gameView);
             gameField.PrepareGame();
         }
 

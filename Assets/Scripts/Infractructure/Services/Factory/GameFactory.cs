@@ -27,7 +27,7 @@ namespace Infractructure.Services.Factory
 
         public async Task<GameField> CreateGameField(int verticalSize, int horizontalSize)
         {
-            GameObject gameFieldGo = await _assetProvider.Instantiate(AssetAddress.GameField, _uiFactory.UIRoot);
+            GameObject gameFieldGo = await _assetProvider.Instantiate(AssetAddress.GameField, _uiFactory.UIRoot.transform);
             gameFieldGo.transform.SetAsLastSibling();
             _gameField = gameFieldGo.GetComponent<GameField>();
             RectTransform gameFieldRect = _gameField.GetComponent<RectTransform>();
@@ -78,6 +78,12 @@ namespace Infractructure.Services.Factory
             }
 
             return cards;
+        }
+        
+        public void Cleanup()
+        {
+            Object.Destroy(_gameField);
+            _assetProvider.Cleanup();
         }
 
         private Vector2 CalculateCellSize(int verticalSize, int horizontalSize, Vector2 spacing)

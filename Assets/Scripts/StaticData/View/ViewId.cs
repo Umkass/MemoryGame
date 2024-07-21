@@ -5,6 +5,7 @@ namespace StaticData.View
         Unknown = 0,
         MainMenu = 1,
         GameSettings = 2,
-        Game
+        Game = 3,
+        GameOver = 4,
     }
 }

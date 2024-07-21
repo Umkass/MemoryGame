@@ -6,5 +6,7 @@
         public const float GameFieldHeight = 790f;
         public const int MaxRowsForSquareCards = 4;
         public const int MinutesToSeconds = 60;
+        public const string GameWonText = "YOU WON!!!";
+        public const string GameLostText = "YOU LOST!!!";
     }
 }
