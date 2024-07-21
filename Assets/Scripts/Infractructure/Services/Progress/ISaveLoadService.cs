@@ -6,5 +6,6 @@ namespace Infractructure.Services.Progress
     {
         void SaveGameSettings(SaveLoadId saveLoadId);
         GameSettingsData LoadGameSettings(SaveLoadId saveLoadId);
+        void ClearAllSaves();
     }
 }

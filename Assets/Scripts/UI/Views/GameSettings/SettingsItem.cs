@@ -1,8 +1,10 @@
+using System.Collections;
 using Data;
 using Infractructure.Services.Progress;
 using Infractructure.Services.StaticData;
 using Infractructure.StateMachine;
 using StaticData.GameSettings;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,10 +18,18 @@ namespace UI.Views.GameSettings
         [SerializeField] private Slider _gameTime;
         [SerializeField] private Slider _soundVolume;
         [SerializeField] private Slider _musicVolume;
+        [SerializeField] private Button _btnClearSaves;
+        [SerializeField] private Button _btnLoadPlayerPrefsSave;
+        [SerializeField] private Button _btnLoadJSONSave;
+        [SerializeField] private Button _btnLoadBase64Save;
         [SerializeField] private Button _btnPlay;
-        [SerializeField] private Button _btnSaveJSONAndPlay;
-        [SerializeField] private Button _btnSavePlayerPrefsAndPlay;
-        [SerializeField] private Button _btnSaveBase64AndPlay;
+        [SerializeField] private Button _btnSavePlayerPrefs;
+        [SerializeField] private Button _btnSaveJSON;
+        [SerializeField] private Button _btnSaveBase64;
+        [SerializeField] private Image _noSaveNotification;
+        [SerializeField] private TextMeshProUGUI _noSaveText;
+        [SerializeField] private TextMeshProUGUI _noSaveTypeText;
+        private Coroutine _notificationCoroutine;
         private IGameStateMachine _stateMachine;
         private IStaticDataService _staticDataService;
         private ISaveLoadService _saveLoadService;
@@ -36,58 +46,67 @@ namespace UI.Views.GameSettings
 
         public void Initialize()
         {
-            GameSettingsData gameSettings = _saveLoadService.LoadGameSettings(SaveLoadId.PlayerPrefs);
             DefaultGameSettingsData defaultGameSettings = _staticDataService.GetDefaultGameSettings();
-            InitializeMinMaxSettings(defaultGameSettings);
-            if (gameSettings == null)
-            {
-                InitializeDefaultGameSettings(defaultGameSettings);
-            }
-            else
-            {
-                InitializeSavedGameSettings(gameSettings);
-            }
+            InitializeSliders(defaultGameSettings);
+            AddButtonListeners();
+            AddSliderListeners();
+        }
 
+        private void InitializeSliders(DefaultGameSettingsData defaultGameSettings)
+        {
+            SetSliderLimits(_verticalSize, defaultGameSettings.VerticalSize);
+            SetSliderLimits(_horizontalSize, defaultGameSettings.HorizontalSize);
+            SetSliderLimits(_memorizationTime, defaultGameSettings.MemorizationTime);
+            SetSliderLimits(_gameTime, defaultGameSettings.GameTime);
+            SetSliderLimits(_soundVolume, defaultGameSettings.SoundVolume);
+            SetSliderLimits(_musicVolume, defaultGameSettings.MusicVolume);
+            ApplyDefaultSettings(defaultGameSettings);
+        }
 
+        private void AddButtonListeners()
+        {
+            _btnClearSaves.onClick.AddListener(OnClearSaves);
+            _btnLoadPlayerPrefsSave.onClick.AddListener(() => LoadGameSettings(SaveLoadId.PlayerPrefs));
+            _btnLoadJSONSave.onClick.AddListener(() => LoadGameSettings(SaveLoadId.JSON));
+            _btnLoadBase64Save.onClick.AddListener(() => LoadGameSettings(SaveLoadId.Base64));
             _btnPlay.onClick.AddListener(OnPlayClicked);
-            _btnSaveJSONAndPlay.onClick.AddListener(OnSaveJSONAndPlay);
-            _btnSavePlayerPrefsAndPlay.onClick.AddListener(OnSavePlayerPrefsAndPlay);
-            _btnSaveBase64AndPlay.onClick.AddListener(OnSaveBase64AndPlay);
+            _btnSavePlayerPrefs.onClick.AddListener(() => SaveGameSettings(SaveLoadId.PlayerPrefs));
+            _btnSaveJSON.onClick.AddListener(() => SaveGameSettings(SaveLoadId.JSON));
+            _btnSaveBase64.onClick.AddListener(() => SaveGameSettings(SaveLoadId.Base64));
+        }
+
+        private void AddSliderListeners()
+        {
             _verticalSize.onValueChanged.AddListener(OnVerticalSizeChanged);
             _horizontalSize.onValueChanged.AddListener(OnHorizontalSizeChanged);
         }
 
+        private void OnClearSaves() =>
+            _saveLoadService.ClearAllSaves();
+
+        private void LoadGameSettings(SaveLoadId saveLoadId)
+        {
+            GameSettingsData gameSettings = _saveLoadService.LoadGameSettings(saveLoadId);
+            if (gameSettings != null)
+                ApplyGameSettings(gameSettings);
+            else
+                ShowNoSaveNotification(saveLoadId);
+        }
+
+
         private void OnPlayClicked()
         {
-            GameSettingsData gameSettingsData = new GameSettingsData
-            {
-                VerticalSize = (int)_verticalSize.value,
-                HorizontalSize = (int)_horizontalSize.value,
-                MemorizationTime = (int)_memorizationTime.value,
-                GameTime = (int)_gameTime.value,
-                SoundVolume = (int)_soundVolume.value,
-                MusicVolume = (int)_musicVolume.value
-            };
-            _progressService.GameSettingsData = gameSettingsData;
+            SaveGameSettingsToProgressService();
             _stateMachine.Enter<GameState>();
         }
 
-        private void OnSaveJSONAndPlay()
+        private void SaveGameSettings(SaveLoadId saveLoadId)
         {
-            GameSettingsData gameSettingsData = new GameSettingsData
-            {
-                VerticalSize = (int)_verticalSize.value,
-                HorizontalSize = (int)_horizontalSize.value,
-                MemorizationTime = (int)_memorizationTime.value,
-                GameTime = (int)_gameTime.value,
-                SoundVolume = (int)_soundVolume.value,
-                MusicVolume = (int)_musicVolume.value
-            };
-            _progressService.GameSettingsData = gameSettingsData;
-            _stateMachine.Enter<GameState>();
+            SaveGameSettingsToProgressService();
+            _saveLoadService.SaveGameSettings(saveLoadId);
         }
 
-        private void OnSavePlayerPrefsAndPlay()
+        private void SaveGameSettingsToProgressService()
         {
             GameSettingsData gameSettingsData = new GameSettingsData
             {
@@ -99,57 +118,9 @@ namespace UI.Views.GameSettings
                 MusicVolume = (int)_musicVolume.value
             };
             _progressService.GameSettingsData = gameSettingsData;
-            _saveLoadService.SaveGameSettings(SaveLoadId.PlayerPrefs);
-            _stateMachine.Enter<GameState>();
         }
 
-        private void OnSaveBase64AndPlay()
-        {
-            GameSettingsData gameSettingsData = new GameSettingsData
-            {
-                VerticalSize = (int)_verticalSize.value,
-                HorizontalSize = (int)_horizontalSize.value,
-                MemorizationTime = (int)_memorizationTime.value,
-                GameTime = (int)_gameTime.value,
-                SoundVolume = (int)_soundVolume.value,
-                MusicVolume = (int)_musicVolume.value
-            };
-            _progressService.GameSettingsData = gameSettingsData;
-            _stateMachine.Enter<GameState>();
-        }
-
-        private void InitializeMinMaxSettings(DefaultGameSettingsData defaultGameSettings)
-        {
-            _verticalSize.minValue = defaultGameSettings.VerticalSize.Min;
-            _verticalSize.maxValue = defaultGameSettings.VerticalSize.Max;
-
-            _horizontalSize.minValue = defaultGameSettings.HorizontalSize.Min;
-            _horizontalSize.maxValue = defaultGameSettings.HorizontalSize.Max;
-
-            _memorizationTime.minValue = defaultGameSettings.MemorizationTime.Min;
-            _memorizationTime.maxValue = defaultGameSettings.MemorizationTime.Max;
-
-            _gameTime.minValue = defaultGameSettings.GameTime.Min;
-            _gameTime.maxValue = defaultGameSettings.GameTime.Max;
-
-            _soundVolume.minValue = defaultGameSettings.SoundVolume.Min;
-            _soundVolume.maxValue = defaultGameSettings.SoundVolume.Max;
-
-            _musicVolume.minValue = defaultGameSettings.MusicVolume.Min;
-            _musicVolume.maxValue = defaultGameSettings.MusicVolume.Max;
-        }
-
-        private void InitializeSavedGameSettings(GameSettingsData gameSettingsData)
-        {
-            _verticalSize.value = gameSettingsData.VerticalSize;
-            _horizontalSize.value = gameSettingsData.HorizontalSize;
-            _memorizationTime.value = gameSettingsData.MemorizationTime;
-            _gameTime.value = gameSettingsData.GameTime;
-            _soundVolume.value = gameSettingsData.SoundVolume;
-            _musicVolume.value = gameSettingsData.MusicVolume;
-        }
-
-        private void InitializeDefaultGameSettings(DefaultGameSettingsData defaultGameSettings)
+        private void ApplyDefaultSettings(DefaultGameSettingsData defaultGameSettings)
         {
             _verticalSize.value = defaultGameSettings.VerticalSize.DefaultValue;
             _horizontalSize.value = defaultGameSettings.HorizontalSize.DefaultValue;
@@ -157,6 +128,78 @@ namespace UI.Views.GameSettings
             _gameTime.value = defaultGameSettings.GameTime.DefaultValue;
             _soundVolume.value = defaultGameSettings.SoundVolume.DefaultValue;
             _musicVolume.value = defaultGameSettings.MusicVolume.DefaultValue;
+        }
+
+        private void ShowNoSaveNotification(SaveLoadId saveLoadId)
+        {
+            if (_notificationCoroutine == null)
+                _notificationCoroutine = StartCoroutine(NoSaveNotificationCoroutine(saveLoadId));
+        }
+
+        private IEnumerator NoSaveNotificationCoroutine(SaveLoadId saveLoadId)
+        {
+            float fadeInDuration = 0.25f;
+            float fadeOutDuration = 0.25f;
+            float waitDuration = 0.5f;
+
+            Color notificationBackgroundStartColor = new Color(0.1415094f, 0.1415094f, 0.1415094f, 0f);
+            Color notificationBackgroundEndColor = new Color(0.1415094f, 0.1415094f, 0.1415094f, 1f);
+            Color textStartColor = new Color(1f, 1f, 1f, 0f);
+            Color textEndColor = new Color(1f, 1f, 1f, 1f);
+
+            _noSaveTypeText.text = saveLoadId.ToString();
+            _noSaveNotification.gameObject.SetActive(true);
+
+            yield return FadeCoroutine(notificationBackgroundStartColor, notificationBackgroundEndColor,
+                textStartColor, textEndColor, fadeInDuration);
+
+            yield return new WaitForSeconds(waitDuration);
+
+            yield return FadeCoroutine(notificationBackgroundEndColor, notificationBackgroundStartColor,
+                textEndColor, textStartColor, fadeOutDuration);
+
+            _noSaveNotification.gameObject.SetActive(false);
+            _notificationCoroutine = null;
+        }
+
+        private IEnumerator FadeCoroutine(Color notificationStartColor, Color notificationEndColor,
+            Color textStartColor, Color textEndColor, float duration)
+        {
+            float elapsedTime = 0f;
+
+            _noSaveNotification.color = notificationStartColor;
+            _noSaveText.color = textStartColor;
+            _noSaveTypeText.color = textStartColor;
+
+            while (elapsedTime < duration)
+            {
+                float t = elapsedTime / duration;
+                _noSaveNotification.color = Color.Lerp(notificationStartColor, notificationEndColor, t);
+                _noSaveText.color = Color.Lerp(textStartColor, textEndColor, t);
+                _noSaveTypeText.color = Color.Lerp(textStartColor, textEndColor, t);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            _noSaveNotification.color = notificationEndColor;
+            _noSaveText.color = textEndColor;
+            _noSaveTypeText.color = textEndColor;
+        }
+
+        private void ApplyGameSettings(GameSettingsData gameSettings)
+        {
+            _verticalSize.value = gameSettings.VerticalSize;
+            _horizontalSize.value = gameSettings.HorizontalSize;
+            _memorizationTime.value = gameSettings.MemorizationTime;
+            _gameTime.value = gameSettings.GameTime;
+            _soundVolume.value = gameSettings.SoundVolume;
+            _musicVolume.value = gameSettings.MusicVolume;
+        }
+
+        private void SetSliderLimits(Slider slider, SliderSettingData limits)
+        {
+            slider.minValue = limits.Min;
+            slider.maxValue = limits.Max;
         }
 
         private void OnVerticalSizeChanged(float value)
