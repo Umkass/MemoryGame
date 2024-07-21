@@ -61,7 +61,7 @@ namespace Infractructure.Services.Factory
 
             await _assetProvider.Load<GameObject>(cardsStaticData.PrefabReference);
 
-            foreach (var cardData in cardsData)
+            foreach (CardData cardData in cardsData)
             {
                 GameObject cardGo = await _assetProvider.Instantiate(cardsStaticData.PrefabReference.AssetGUID, parent);
                 GameObject cardPairGo =

@@ -7,8 +7,14 @@ namespace GameCore
     public class CountdownTimer : MonoBehaviour
     {
         public Action OnTimerFinish;
-        public void StartTimer(int time, Action<int> textUpdater) => 
-            StartCoroutine(TimerCoroutine(time, textUpdater));
+        private Coroutine _timerCoroutine;
+
+        public void StartTimer(int time, Action<int> textUpdater)
+        {
+            if (_timerCoroutine != null)
+                StopCoroutine(_timerCoroutine);
+            _timerCoroutine = StartCoroutine(TimerCoroutine(time, textUpdater));
+        }
 
         private IEnumerator TimerCoroutine(int time, Action<int> textUpdater)
         {
@@ -19,7 +25,8 @@ namespace GameCore
                 yield return new WaitForSeconds(1);
                 remainingTime--;
             }
-            textUpdater(remainingTime); 
+
+            textUpdater(remainingTime);
             OnTimerFinish?.Invoke();
         }
     }

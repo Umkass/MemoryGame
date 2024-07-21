@@ -14,17 +14,16 @@ namespace UI.Views.GameView
         [SerializeField] private TextMeshProUGUI _timerTimeText;
         [SerializeField] private Button _btnHelp;
         public Action OnHelpClicked;
-        
+        public int TimerTime { get; private set; }
+
         public override void Initialize()
         {
             base.Initialize();
-            _btnHelp.onClick.AddListener(() => OnHelpClicked?.Invoke());
+            _btnHelp.onClick.AddListener(OnHelpButtonClicked);
         }
 
-        public void SetHelpButtonInteractable(bool active)
-        {
+        public void SetHelpButtonInteractable(bool active) => 
             _btnHelp.interactable = active;
-        }
 
         public void SetMemorizationTimerActive(bool active)
         {
@@ -32,16 +31,23 @@ namespace UI.Views.GameView
             _timer.SetActive(!active);
         }
 
-        public void UpdateMemorizationTime(int time)
-        {
+        public void UpdateMemorizationTime(int time) => 
             _memorizationTimeText.text = time.ToString();
-        }
 
         public void UpdateTimerTime(int time)
         {
+            TimerTime = time;
+            _timerTimeText.text = FormatTime(time);
+        }
+        
+        private void OnHelpButtonClicked() => 
+            OnHelpClicked?.Invoke();
+
+        private string FormatTime(int time)
+        {
             int minutes = time / Consts.MinutesToSeconds;
             int seconds = time % Consts.MinutesToSeconds;
-            _timerTimeText.text = $"{minutes:00}:{seconds:00}";
+            return $"{minutes:00}:{seconds:00}";
         }
     }
 }

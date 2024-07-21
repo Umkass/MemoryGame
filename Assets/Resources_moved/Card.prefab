@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 463801725486654102}
   - component: {fileID: 1769439344220330662}
   - component: {fileID: 8391087102262673356}
+  - component: {fileID: 1021205874501083933}
   m_Layer: 5
   m_Name: Card
   m_TagString: Untagged
@@ -55,8 +56,6 @@ Animation:
   m_Animations:
   - {fileID: 7400000, guid: dc2dad57fd1be5a489b4999340ff95cb, type: 2}
   - {fileID: 7400000, guid: 9f443d74bb200f447a375840fdc8ffac, type: 2}
-  - {fileID: 7400000, guid: 4d7da5ddfd933c04997b1512b183cb2f, type: 2}
-  - {fileID: 7400000, guid: eb481b0833997c1449881f82e8c945fa, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -73,9 +72,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bd11d57c0124ce899374e3bd77356e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cardAnimation: {fileID: 1021205874501083933}
   _image: {fileID: 2524382329587236172}
   _cardBack: {fileID: 5856572072488871920}
   btnCard: {fileID: 4362868341627165656}
+--- !u!114 &1021205874501083933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 147423047064168994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf4bb8e6ebcd4a32b6ee26041ae8ce95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _animation: {fileID: 1769439344220330662}
 --- !u!1 &1142553016106395540
 GameObject:
