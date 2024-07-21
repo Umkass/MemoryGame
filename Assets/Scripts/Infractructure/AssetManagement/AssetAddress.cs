@@ -4,5 +4,6 @@
     {
         public const string UIRoot = "UIRoot";
         public const string GameField = "GameField";
+        public const string AudioManager = "AudioManager";
     }
 }

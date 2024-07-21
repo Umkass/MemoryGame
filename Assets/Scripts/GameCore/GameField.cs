@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Audio;
 using Data;
 using Infractructure.Services.Progress;
 using Infractructure.StateMachine;
@@ -19,10 +20,11 @@ namespace GameCore
 
         private List<Card> _cards;
         private List<CardAnimation> _cardAnimations = new();
-        
+
         public GridLayoutGroup gridLayoutGroup;
 
-        public void Initialize(IProgressService progressService,IGameStateMachine stateMachine, List<Card> cards, GameView gameView)
+        public void Initialize(IProgressService progressService, IGameStateMachine stateMachine, List<Card> cards, 
+            AudioManager audioManager, GameView gameView)
         {
             _progressService = progressService;
             _stateMachine = stateMachine;
@@ -36,7 +38,7 @@ namespace GameCore
                 _cardAnimations.Add(cardAnimation);
             }
 
-            _cardMatch.Initialize(_settingsData);
+            _cardMatch.Initialize(_settingsData, audioManager);
             _cardMatch.OnAllCardsMatched += GameWin;
         }
 

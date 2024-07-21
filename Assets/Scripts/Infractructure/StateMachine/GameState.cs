@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Audio;
+using Data;
 using GameCore;
 using Infractructure.Services.Factory;
 using Infractructure.Services.Progress;
@@ -31,6 +33,10 @@ namespace Infractructure.StateMachine
 
         public async void Enter()
         {
+            AudioManager audioManager = await _gameFactory.CreateAudioManager();
+            audioManager.UpdateVolumeMusic(_progressService.GameSettingsData.MusicVolume/Consts.SettingVolumeToASVolume);
+            audioManager.UpdateVolumeSound(_progressService.GameSettingsData.SoundVolume/Consts.SettingVolumeToASVolume);
+            
             await _uiFactory.CreateUIRoot();
             ViewBase view = await _viewService.Open(ViewId.Game);
             GameView gameView = view.GetComponent<GameView>();
@@ -39,7 +45,7 @@ namespace Infractructure.StateMachine
             List<Card> cards = await _gameFactory.CreateCards(_progressService.GameSettingsData.VerticalSize *
                                                               _progressService.GameSettingsData.HorizontalSize);
 
-            gameField.Initialize(_progressService, _stateMachine, cards, gameView);
+            gameField.Initialize(_progressService, _stateMachine, cards, audioManager, gameView);
             gameField.PrepareGame();
         }
 

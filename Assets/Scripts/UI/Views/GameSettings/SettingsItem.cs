@@ -1,4 +1,5 @@
 using System.Collections;
+using Audio;
 using Data;
 using Infractructure.Services.Progress;
 using Infractructure.Services.StaticData;
@@ -34,14 +35,16 @@ namespace UI.Views.GameSettings
         private IStaticDataService _staticDataService;
         private ISaveLoadService _saveLoadService;
         private IProgressService _progressService;
+        private AudioManager _audioManager;
 
         public void Construct(IGameStateMachine stateMachine, IStaticDataService staticDataService,
-            ISaveLoadService saveLoadService, IProgressService progressService)
+            ISaveLoadService saveLoadService, IProgressService progressService, AudioManager audioManager)
         {
             _stateMachine = stateMachine;
             _staticDataService = staticDataService;
             _saveLoadService = saveLoadService;
             _progressService = progressService;
+            _audioManager = audioManager;
         }
 
         public void Initialize()
@@ -79,6 +82,18 @@ namespace UI.Views.GameSettings
         {
             _verticalSize.onValueChanged.AddListener(OnVerticalSizeChanged);
             _horizontalSize.onValueChanged.AddListener(OnHorizontalSizeChanged);
+            _musicVolume.onValueChanged.AddListener(OnMusicVolumeChanged);
+            _soundVolume.onValueChanged.AddListener(OnSoundVolumeChanged);
+        }
+
+        private void OnMusicVolumeChanged(float value)
+        {
+            _audioManager.UpdateVolumeMusic(value / Consts.SettingVolumeToASVolume);
+        }
+
+        private void OnSoundVolumeChanged(float value)
+        {
+            _audioManager.UpdateVolumeSound(value / Consts.SettingVolumeToASVolume);
         }
 
         private void OnClearSaves() =>

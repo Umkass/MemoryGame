@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Audio;
 using Infractructure.Services.Progress;
 using Infractructure.Services.StaticData;
 using Infractructure.StateMachine;
@@ -23,6 +24,7 @@ namespace Infractructure.UIServices.ViewService
         private IGameStateMachine _stateMachine;
 
         private ViewBase _currentView;
+        private AudioManager _audioManager;
 
         public ViewService(IUIFactory uiFactory, IStaticDataService staticDataService, ISaveLoadService saveLoadService,
             IProgressService progressService)
@@ -33,8 +35,11 @@ namespace Infractructure.UIServices.ViewService
             _progressService = progressService;
         }
 
-        public void Initialize(IGameStateMachine stateMachine) =>
+        public void Initialize(IGameStateMachine stateMachine, AudioManager audioManager)
+        {
             _stateMachine = stateMachine;
+            _audioManager = audioManager;
+        }
 
         public async Task<ViewBase> Open(ViewId viewId)
         {
@@ -63,7 +68,8 @@ namespace Infractructure.UIServices.ViewService
                     break;
                 case ViewId.GameSettings:
                     GameSettings gameSettings = view.GetComponent<GameSettings>();
-                    gameSettings.Construct(this, _stateMachine, _staticDataService, _saveLoadService, _progressService);
+                    gameSettings.Construct(this, _stateMachine, _staticDataService, _saveLoadService, _progressService,
+                        _audioManager);
                     gameSettings.Initialize();
                     gameSettings.SubscribeUpdates();
                     break;
