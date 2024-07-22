@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace GameCore
+namespace Logic
 {
     public class CountdownTimer : MonoBehaviour
     {
@@ -11,8 +11,7 @@ namespace GameCore
 
         public void StartTimer(int time, Action<int> textUpdater)
         {
-            if (_timerCoroutine != null)
-                StopCoroutine(_timerCoroutine);
+            StopTimer();
             _timerCoroutine = StartCoroutine(TimerCoroutine(time, textUpdater));
         }
 
@@ -28,6 +27,12 @@ namespace GameCore
 
             textUpdater(remainingTime);
             OnTimerFinish?.Invoke();
+        }
+
+        private void StopTimer()
+        {
+            if (_timerCoroutine != null)
+                StopCoroutine(_timerCoroutine);
         }
     }
 }

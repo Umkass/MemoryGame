@@ -7,19 +7,29 @@ namespace UI.Views
     {
         private IViewService _viewService;
 
-        public virtual void Construct(IViewService viewService) => 
+        public virtual void Construct(IViewService viewService) =>
             _viewService = viewService;
 
-        private void Awake() => 
+        private void Awake() =>
             OnAwake();
 
         private void OnDestroy() =>
             Cleanup();
 
-        protected virtual void OnAwake() { }
+        protected virtual void OnAwake()
+        {
+        }
 
-        public virtual void Initialize() { }
-        public virtual void SubscribeUpdates(){}
-        protected virtual void Cleanup(){}
+        public virtual void Initialize()
+        {
+        }
+
+        public virtual void SubscribeUpdates()
+        {
+        }
+
+        protected virtual void Cleanup()
+        {
+        }
     }
 }

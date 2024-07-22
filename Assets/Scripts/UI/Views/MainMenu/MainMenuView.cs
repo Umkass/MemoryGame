@@ -6,7 +6,7 @@ namespace UI.Views.MainMenu
     public class MainMenuView : ViewBase
     {
         [SerializeField] private MainMenuItem _menuItem;
-        
+
         public override void Construct(IViewService viewService)
         {
             base.Construct(viewService);

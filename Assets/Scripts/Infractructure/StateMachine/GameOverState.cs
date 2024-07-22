@@ -18,12 +18,9 @@ namespace Infractructure.StateMachine
             _uiFactory = uiFactory;
         }
 
-        public async void Enter()
-        {
+        public async void Enter() => 
             await _viewService.Open(ViewId.GameOver);
-        }
         
-
         public void Exit()
         {
             _gameFactory.Cleanup();

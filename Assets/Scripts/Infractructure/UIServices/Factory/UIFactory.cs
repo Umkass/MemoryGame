@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Data;
 using Infractructure.AssetManagement;
 using Infractructure.Services.StaticData;
 using StaticData.View;
@@ -19,6 +20,9 @@ namespace Infractructure.UIServices.Factory
             _assetProvider = assetProvider;
         }
 
+        public async Task WarmUp() =>
+            await _assetProvider.Load<GameObject>(AssetAddress.UIRoot);
+
         public async Task CreateUIRoot()
         {
             GameObject root = await _assetProvider.Instantiate(AssetAddress.UIRoot);
@@ -32,10 +36,12 @@ namespace Infractructure.UIServices.Factory
             ViewBase window = windowGameObject.GetComponent<ViewBase>();
             return window;
         }
-        
+
         public void Cleanup()
         {
-            Object.Destroy(UIRoot);
+            if (UIRoot != null)
+                Object.Destroy(UIRoot);
+            
             _assetProvider.Cleanup();
         }
     }

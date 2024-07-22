@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Audio;
 using Infractructure.Services.Progress;
+using Infractructure.Services.SaveLoad;
 using Infractructure.Services.StaticData;
 using Infractructure.StateMachine;
 using Infractructure.UIServices.Factory;
@@ -97,14 +97,5 @@ namespace Infractructure.UIServices.ViewService
 
             Object.Destroy(view.gameObject);
         }
-
-        private void ShowView(ViewBase view)
-        {
-            view.gameObject.SetActive(true);
-            _currentView = view;
-        }
-
-        private void HideView(ViewBase view) =>
-            view.gameObject.SetActive(false);
     }
 }

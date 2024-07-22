@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace UI
+namespace UI.Curtain
 {
     public class LoadingCurtain : MonoBehaviour, ICurtain
     {
@@ -13,7 +13,7 @@ namespace UI
             Curtain.alpha = 1;
         }
 
-        public void Hide() => 
+        public void Hide() =>
             StartCoroutine(DoFadeIn());
 
         private IEnumerator DoFadeIn()

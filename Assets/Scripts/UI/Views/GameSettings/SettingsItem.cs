@@ -2,6 +2,7 @@ using System.Collections;
 using Audio;
 using Data;
 using Infractructure.Services.Progress;
+using Infractructure.Services.SaveLoad;
 using Infractructure.Services.StaticData;
 using Infractructure.StateMachine;
 using StaticData.GameSettings;
@@ -31,6 +32,7 @@ namespace UI.Views.GameSettings
         [SerializeField] private TextMeshProUGUI _noSaveText;
         [SerializeField] private TextMeshProUGUI _noSaveTypeText;
         private Coroutine _notificationCoroutine;
+
         private IGameStateMachine _stateMachine;
         private IStaticDataService _staticDataService;
         private ISaveLoadService _saveLoadService;
@@ -88,12 +90,14 @@ namespace UI.Views.GameSettings
 
         private void OnMusicVolumeChanged(float value)
         {
-            _audioManager.UpdateVolumeMusic(value / Consts.SettingVolumeToASVolume);
+            value /= Consts.SettingVolumeToASVolume;
+            _audioManager.UpdateVolumeMusic(value);
         }
 
         private void OnSoundVolumeChanged(float value)
         {
-            _audioManager.UpdateVolumeSound(value / Consts.SettingVolumeToASVolume);
+            value /= Consts.SettingVolumeToASVolume;
+            _audioManager.UpdateVolumeSound(value);
         }
 
         private void OnClearSaves() =>
@@ -107,8 +111,7 @@ namespace UI.Views.GameSettings
             else
                 ShowNoSaveNotification(saveLoadId);
         }
-
-
+        
         private void OnPlayClicked()
         {
             SaveGameSettingsToProgressService();

@@ -1,4 +1,4 @@
-namespace Infractructure.Services.Progress
+namespace Infractructure.Services.SaveLoad
 {
     public enum SaveLoadId
     {

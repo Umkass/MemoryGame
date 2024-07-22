@@ -1,5 +1,4 @@
-﻿using Infractructure.StateMachine;
-using Infractructure.UIServices.ViewService;
+﻿using Infractructure.UIServices.ViewService;
 using StaticData.View;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,13 +10,13 @@ namespace UI.Views.MainMenu
         [SerializeField] private Button _btnPlay;
         private IViewService _viewService;
 
-        public void Construct(IViewService viewService) => 
+        public void Construct(IViewService viewService) =>
             _viewService = viewService;
 
-        public void Initialize() => 
+        public void Initialize() =>
             _btnPlay.onClick.AddListener(OnPlayClicked);
 
-        private void OnPlayClicked() => 
+        private void OnPlayClicked() =>
             _viewService.Open(ViewId.GameSettings);
     }
 }

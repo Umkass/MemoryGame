@@ -22,7 +22,7 @@ namespace UI.Views.GameView
             _btnHelp.onClick.AddListener(OnHelpButtonClicked);
         }
 
-        public void SetHelpButtonInteractable(bool active) => 
+        public void SetHelpButtonInteractable(bool active) =>
             _btnHelp.interactable = active;
 
         public void SetMemorizationTimerActive(bool active)
@@ -31,7 +31,7 @@ namespace UI.Views.GameView
             _timer.SetActive(!active);
         }
 
-        public void UpdateMemorizationTime(int time) => 
+        public void UpdateMemorizationTime(int time) =>
             _memorizationTimeText.text = time.ToString();
 
         public void UpdateTimerTime(int time)
@@ -39,8 +39,8 @@ namespace UI.Views.GameView
             TimerTime = time;
             _timerTimeText.text = FormatTime(time);
         }
-        
-        private void OnHelpButtonClicked() => 
+
+        private void OnHelpButtonClicked() =>
             OnHelpClicked?.Invoke();
 
         private string FormatTime(int time)

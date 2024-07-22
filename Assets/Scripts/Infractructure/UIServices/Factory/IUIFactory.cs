@@ -7,6 +7,7 @@ namespace Infractructure.UIServices.Factory
 {
     public interface IUIFactory
     {
+        Task WarmUp();
         public GameObject UIRoot { get; }
         Task CreateUIRoot();
         Task<ViewBase> CreateWindow(ViewId viewId);

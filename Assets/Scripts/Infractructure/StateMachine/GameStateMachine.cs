@@ -11,7 +11,7 @@ namespace Infractructure.StateMachine
         private readonly GameState _gameState;
         private readonly ISceneLoader _sceneLoader;
         private IState _activeState;
-        
+
         public GameStateMachine(BootstrapState bootstrapState, MenuState menuState, GameState gameState,
             GameOverState gameOverState, ISceneLoader sceneLoader)
         {
@@ -40,12 +40,6 @@ namespace Infractructure.StateMachine
         {
             IDefaultState state = ChangeState<TState>();
             state.Enter();
-        }
-
-        public void Enter<TState, TPayload>(TPayload payload) where TState : class, IPayloadedState<TPayload>
-        {
-            TState state = ChangeState<TState>();
-            state.Enter(payload);
         }
 
         private TState ChangeState<TState>() where TState : class, IState

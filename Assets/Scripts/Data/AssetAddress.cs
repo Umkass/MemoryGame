@@ -1,4 +1,4 @@
-﻿namespace Infractructure.AssetManagement
+﻿namespace Data
 {
     public static class AssetAddress
     {

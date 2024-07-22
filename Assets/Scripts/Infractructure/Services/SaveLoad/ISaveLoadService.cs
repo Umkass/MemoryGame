@@ -1,6 +1,6 @@
 using Data;
 
-namespace Infractructure.Services.Progress
+namespace Infractructure.Services.SaveLoad
 {
     public interface ISaveLoadService
     {

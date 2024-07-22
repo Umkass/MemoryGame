@@ -4,7 +4,7 @@ using Infractructure.Services.Factory;
 using Infractructure.UIServices.Factory;
 using Infractructure.UIServices.ViewService;
 using StaticData.View;
-using UI;
+using UI.Curtain;
 
 namespace Infractructure.StateMachine
 {
@@ -17,7 +17,8 @@ namespace Infractructure.StateMachine
         private readonly IGameFactory _gameFactory;
         private IGameStateMachine _stateMachine;
 
-        public MenuState(ISceneLoader sceneLoader, ICurtain loadingCurtain, IUIFactory uiFactory, IViewService viewService, IGameFactory gameFactory)
+        public MenuState(ISceneLoader sceneLoader, ICurtain loadingCurtain, IUIFactory uiFactory,
+            IViewService viewService, IGameFactory gameFactory)
         {
             _sceneLoader = sceneLoader;
             _loadingCurtain = loadingCurtain;
@@ -37,9 +38,14 @@ namespace Infractructure.StateMachine
 
         private async void OnLoaded()
         {
+            await _uiFactory.WarmUp();
             await _uiFactory.CreateUIRoot();
+
+            await _gameFactory.WarmUp();
             AudioManager audioManager = await _gameFactory.CreateAudioManager();
+
             _loadingCurtain.Hide();
+
             _viewService.Initialize(_stateMachine, audioManager);
             await _viewService.Open(ViewId.MainMenu);
         }

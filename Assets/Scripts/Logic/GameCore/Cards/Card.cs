@@ -4,7 +4,7 @@ using StaticData.Cards;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GameCore
+namespace Logic.GameCore.Cards
 {
     public class Card : MonoBehaviour
     {
@@ -13,7 +13,7 @@ namespace GameCore
         [SerializeField] private GameObject _cardBack;
         [SerializeField] private Button btnCard;
         private bool _isMemorization;
-        
+
         public bool IsRevealed { get; private set; }
         public bool IsMatched { get; set; }
         public CardId Id { get; private set; }
@@ -57,7 +57,7 @@ namespace GameCore
             UpdateUI();
         }
 
-        public void SetInteractable(bool interactable) => 
+        public void SetInteractable(bool interactable) =>
             btnCard.interactable = !IsRevealed && !IsMatched && !_isMemorization && interactable;
 
         public void TurnCardOver() =>
@@ -69,13 +69,13 @@ namespace GameCore
             UpdateUI();
         }
 
+        public void CardRevealed() =>
+            OnCardRevealed?.Invoke(this);
+
         private void UpdateUI()
         {
             _cardBack.SetActive(!IsRevealed);
             _image.gameObject.SetActive(IsRevealed);
         }
-
-        public void CardRevealed() =>
-            OnCardRevealed?.Invoke(this);
     }
 }

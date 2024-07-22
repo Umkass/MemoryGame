@@ -3,7 +3,7 @@ using System.Collections;
 using Data;
 using UnityEngine;
 
-namespace GameCore
+namespace Logic.GameCore.Cards
 {
     public class CardAnimation : MonoBehaviour
     {

@@ -1,5 +1,5 @@
 ﻿using Infractructure;
-using UI;
+using UI.Curtain;
 using UnityEngine;
 
 namespace Zenject.Installers

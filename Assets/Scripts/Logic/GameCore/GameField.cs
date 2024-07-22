@@ -3,11 +3,12 @@ using Audio;
 using Data;
 using Infractructure.Services.Progress;
 using Infractructure.StateMachine;
+using Logic.GameCore.Cards;
 using UI.Views.GameView;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GameCore
+namespace Logic.GameCore
 {
     public class GameField : MonoBehaviour
     {
@@ -23,7 +24,7 @@ namespace GameCore
 
         public GridLayoutGroup gridLayoutGroup;
 
-        public void Initialize(IProgressService progressService, IGameStateMachine stateMachine, List<Card> cards, 
+        public void Initialize(IProgressService progressService, IGameStateMachine stateMachine, List<Card> cards,
             AudioManager audioManager, GameView gameView)
         {
             _progressService = progressService;
@@ -53,27 +54,23 @@ namespace GameCore
         {
             _countdownTimer.OnTimerFinish -= StartGame;
             _gameView.UpdateTimerTime(_settingsData.GameTime * Consts.MinutesToSeconds);
-            SetupGameUI();
-
-            SubscribeToCardEvents();
-
             _countdownTimer.StartTimer(_settingsData.GameTime * Consts.MinutesToSeconds, _gameView.UpdateTimerTime);
             _countdownTimer.OnTimerFinish += GameLost;
+            SetupGameUI();
+            SubscribeToCardEvents();
         }
 
         private void ContinueGame()
         {
             _countdownTimer.OnTimerFinish -= ContinueGame;
             _gameView.UpdateTimerTime(_gameView.TimerTime - _settingsData.MemorizationTime);
-            SetupGameUI();
-
-            SubscribeToCardEvents();
-
             _countdownTimer.StartTimer(_gameView.TimerTime, _gameView.UpdateTimerTime);
             _countdownTimer.OnTimerFinish += GameLost;
+            SetupGameUI();
+            SubscribeToCardEvents();
         }
 
-        public void GameWin()
+        private void GameWin()
         {
             _progressService.IsLastGameWon = true;
             _stateMachine.Enter<GameOverState>();

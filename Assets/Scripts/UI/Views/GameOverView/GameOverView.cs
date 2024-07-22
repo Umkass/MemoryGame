@@ -16,13 +16,13 @@ namespace UI.Views.GameOverView
         private IProgressService _progressService;
         private IGameStateMachine _stateMachine;
 
-        public void Construct(IViewService viewService,IProgressService progressService, IGameStateMachine stateMachine)
+        public void Construct(IViewService viewService, IProgressService progressService, IGameStateMachine stateMachine)
         {
             base.Construct(viewService);
             _progressService = progressService;
             _stateMachine = stateMachine;
         }
-        
+
         public override void Initialize()
         {
             base.Initialize();
@@ -31,10 +31,10 @@ namespace UI.Views.GameOverView
             _btnMainMenu.onClick.AddListener(OnMainMenu);
         }
 
-        private void OnRestart() => 
+        private void OnRestart() =>
             _stateMachine.Enter<GameState>();
 
-        private void OnMainMenu() => 
+        private void OnMainMenu() =>
             _stateMachine.Enter<MenuState>();
     }
 }

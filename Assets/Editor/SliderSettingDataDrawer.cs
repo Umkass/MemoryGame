@@ -60,7 +60,7 @@ namespace Editor
         {
             if (_foldout)
                 return (EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing) * 4;
-            
+
             return EditorGUIUtility.singleLineHeight;
         }
     }

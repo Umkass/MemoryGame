@@ -3,7 +3,7 @@ using Audio;
 using Data;
 using UnityEngine;
 
-namespace GameCore
+namespace Logic.GameCore.Cards
 {
     public class CardMatch : MonoBehaviour
     {
@@ -41,7 +41,7 @@ namespace GameCore
             _firstRevealed = null;
             _secondRevealed = null;
         }
-        
+
         private void CheckMatch()
         {
             if (_firstRevealed.Id == _secondRevealed.Id)
@@ -57,7 +57,7 @@ namespace GameCore
             _secondRevealed.IsMatched = true;
             CleanRevealed();
             _matchesScore++;
-            if (_matchesScore >= _totalPairs) 
+            if (_matchesScore >= _totalPairs)
                 OnAllCardsMatched?.Invoke();
         }
 

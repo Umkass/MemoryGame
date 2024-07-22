@@ -2,11 +2,11 @@
 using System.Threading.Tasks;
 using Audio;
 using Data;
-using GameCore;
 using Infractructure.AssetManagement;
-using Infractructure.Services.Progress;
 using Infractructure.Services.StaticData;
 using Infractructure.UIServices.Factory;
+using Logic.GameCore;
+using Logic.GameCore.Cards;
 using StaticData.Cards;
 using StaticData.GameSettings;
 using UnityEngine;
@@ -29,10 +29,19 @@ namespace Infractructure.Services.Factory
             _uiFactory = uiFactory;
         }
 
+        public async Task WarmUp()
+        {
+            await Task.WhenAll(
+                _assetProvider.Load<GameObject>(AssetAddress.AudioManager),
+                _assetProvider.Load<GameObject>(AssetAddress.GameField)
+            );
+        }
+
         public async Task<AudioManager> CreateAudioManager()
         {
             GameObject audioManagerGo = await _assetProvider.Instantiate(AssetAddress.AudioManager);
             _audioManager = audioManagerGo.GetComponent<AudioManager>();
+
             DefaultGameSettingsData defaultGameSettings = _staticDataService.GetDefaultGameSettings();
             _audioManager.Initialize(defaultGameSettings.MusicVolume.DefaultValue / Consts.SettingVolumeToASVolume,
                 defaultGameSettings.SoundVolume.DefaultValue / Consts.SettingVolumeToASVolume);
@@ -42,9 +51,9 @@ namespace Infractructure.Services.Factory
 
         public async Task<GameField> CreateGameField(int verticalSize, int horizontalSize)
         {
-            GameObject gameFieldGo =
-                await _assetProvider.Instantiate(AssetAddress.GameField, _uiFactory.UIRoot.transform);
+            GameObject gameFieldGo = await _assetProvider.Instantiate(AssetAddress.GameField, _uiFactory.UIRoot.transform);
             gameFieldGo.transform.SetAsLastSibling();
+            
             _gameField = gameFieldGo.GetComponent<GameField>();
             RectTransform gameFieldRect = _gameField.GetComponent<RectTransform>();
             GridLayoutGroup gridLayoutGroup = _gameField.gridLayoutGroup;
@@ -80,8 +89,7 @@ namespace Infractructure.Services.Factory
             foreach (CardData cardData in cardsData)
             {
                 GameObject cardGo = await _assetProvider.Instantiate(cardsStaticData.PrefabReference.AssetGUID, parent);
-                GameObject cardPairGo =
-                    await _assetProvider.Instantiate(cardsStaticData.PrefabReference.AssetGUID, parent);
+                GameObject cardPairGo = await _assetProvider.Instantiate(cardsStaticData.PrefabReference.AssetGUID, parent);
 
                 Card card = cardGo.GetComponent<Card>();
                 Card cardPair = cardPairGo.GetComponent<Card>();
@@ -101,7 +109,9 @@ namespace Infractructure.Services.Factory
             if (_gameField != null)
                 Object.Destroy(_gameField.gameObject);
 
-            Object.Destroy(_audioManager.gameObject);
+            if (_audioManager != null)
+                Object.Destroy(_audioManager.gameObject);
+            
             _assetProvider.Cleanup();
         }
 
